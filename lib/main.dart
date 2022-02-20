@@ -1,4 +1,7 @@
+import 'package:dog_training_log/pages/activitylistpage.dart';
 import 'package:flutter/material.dart';
+import 'helpers/utils.dart';
+import 'models/activity.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MyHomePage(title: 'Overview'),
+      home: ActivityListPage()//const MyHomePage(title: 'Overview'),
     );
   }
 }
@@ -30,36 +33,62 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  final TextEditingController _input = TextEditingController();
+  String _text = "No activity";
+  var activityList = <Activity>[];
+  final TextEditingController _type_c = TextEditingController();
+  final TextEditingController _distance_c = TextEditingController();
+  final TextEditingController _date_c = TextEditingController();
+  final TextEditingController _comment_c = TextEditingController();
 
   void _addEntry() {
-    setState(() {
-      _counter += 2;
-      showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return Dialog(
-            child: SizedBox(
-              height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const FlutterLogo(size: 150,),
-                  const Text("This is a Custom Dialog", style: TextStyle(fontSize: 20),),
-                  TextField(controller: _input,),
-                  ElevatedButton(
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                    }, child: const Text("Close"),
-                  )
-                ],
-              ),
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return Dialog(
+          child: SizedBox(
+            height: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(hintText: "Type:"),
+                  controller: _type_c,
+                ),
+                TextField(
+                  decoration: const InputDecoration(hintText: "Distance:"),
+                  controller: _distance_c,
+                  keyboardType: TextInputType.number,
+                ),
+                // TextFormField(
+                //   style: const TextStyle(fontSize: 40),
+                //   textAlign: TextAlign.center,
+                //   enabled: false,
+                //   keyboardType: TextInputType.text,
+                //   controller: _date_c,
+                //   decoration: const InputDecoration(
+                //     disabledBorder:
+                //     UnderlineInputBorder(borderSide: BorderSide.none),
+                //     contentPadding: EdgeInsets.only(top: 0.0)),
+                // ),
+                TextField(
+                  decoration: const InputDecoration(hintText: "Comment:"),
+                  controller: _comment_c,
+                ),
+                ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      activityList.add(Activity(type: _type_c.text, distance: double.parse(_distance_c.text), date: DateTime.now(), comment: _comment_c.text));
+                      _text = activityList.last.toText();
+                    });
+                    Navigator.pop(context);
+                  }, child: const Text("Add"),
+                )
+              ],
             ),
-          );
-        }
-      );
-    });
+          ),
+        );
+      }
+    );
   }
 
   @override
@@ -73,14 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Last activity:',
             ),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              _input.text,
+              _text,
               style: Theme.of(context).textTheme.headline4,
             )
           ],
@@ -90,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _addEntry,
         tooltip: 'Add entry',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
