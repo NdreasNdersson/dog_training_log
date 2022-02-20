@@ -10,6 +10,8 @@ class ActivityListPage extends StatelessWidget {
 
   List<Activity> activities = Utils.getMockedActivities();
 
+  ActivityListPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +32,7 @@ class ActivityListPage extends StatelessWidget {
             child: ListView.builder(
               itemCount: activities.length,
               itemBuilder: (BuildContext ctx, int index) {
-                return ActivityCard(activity: activities[index]);
+                return ActivityCard(activity: activities[index], context: context);
               }
             )
           ),
