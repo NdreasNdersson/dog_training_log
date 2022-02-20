@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 
 class ActivityCard extends StatefulWidget {
   Activity activity;
-  final BuildContext context;
 
-  ActivityCard({required this.activity, required this.context, Key? key})
+  ActivityCard({required this.activity, Key? key})
       : super(key: key);
 
   @override
