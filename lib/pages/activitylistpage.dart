@@ -25,16 +25,20 @@ class ActivityListPage extends StatelessWidget {
           )
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Stack(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: activities.length,
-              itemBuilder: (BuildContext ctx, int index) {
-                return ActivityCard(activity: activities[index], context: context);
-              }
-            )
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: activities.length,
+                  itemBuilder: (BuildContext ctx, int index) {
+                    return ActivityCard(activity: activities[index]);
+                  }
+                )
+              ),
+            ]
           ),
           const BottomBar(),
         ],
