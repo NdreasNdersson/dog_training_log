@@ -1,14 +1,22 @@
+import 'package:hive/hive.dart';
 
-class Activity {
-  Activity({required this.type, required this.date, this.distance = 0.0, this.comment = ""});
+part 'activity.g.dart';
 
-  final created = DateTime.now();
-  String type;
-  double distance;
-  DateTime date;
-  String comment;
+@HiveType(typeId: 0)
+class Activity extends HiveObject{
 
-  toText() {
-    return "Type: $type, Distance: $distance, Date: ${date.year}-${date.month}-${date.day}, Comment: $comment";
-  }
+  @HiveField(0)
+  late DateTime created;
+
+  @HiveField(1)
+  late String type;
+
+  @HiveField(2)
+  late double distance;
+
+  @HiveField(3)
+  late DateTime date;
+
+  @HiveField(4)
+  late String comment;
 }

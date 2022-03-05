@@ -41,16 +41,23 @@ class _ActivityCard extends State<ActivityCard> {
                 TextField(
                   controller: commentC,
                 ),
-                ElevatedButton(
-                  onPressed: (){
-                    setState(() {
-                      widget.activity.type = typeC.text;
-                      widget.activity.distance = double.parse(distanceC.text);
-                      widget.activity.comment = commentC.text;
-                    });
-                    Navigator.pop(context);
-                  }, child: const Text("Save"),
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: (){
+                        widget.activity.delete();
+                        Navigator.pop(context);
+                      }, child: const Text("Delete"),
+                    ),
+                    ElevatedButton(
+                      onPressed: (){
+                        editActivity(widget.activity, typeC.text, double.parse(distanceC.text), commentC.text);
+                        Navigator.pop(context);
+                      }, child: const Text("Save"),
+                    )
+                  ]
+                ),
               ],
             ),
           ),
@@ -70,7 +77,6 @@ class _ActivityCard extends State<ActivityCard> {
               splashColor: Colors.black.withAlpha(30),
               onTap: () {
                 _onClick();
-                debugPrint("${widget.activity.type} ${widget.activity.date.year}-${widget.activity.date.month}-${widget.activity.date.day} taped");
               },
               child: SizedBox(
                 width: double.infinity,
@@ -100,5 +106,14 @@ class _ActivityCard extends State<ActivityCard> {
         ],
       )
     );
+  }
+
+  void editActivity(Activity activity, String type, double distance, String comment ) {
+
+    activity.type = type;
+    activity.distance = distance;
+    activity.comment = comment;
+
+    activity.save();
   }
 }

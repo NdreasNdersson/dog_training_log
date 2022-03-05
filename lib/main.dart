@@ -4,8 +4,16 @@ import 'package:dog_training_log/widgets/headerbar.dart';
 import 'package:dog_training_log/helpers/utils.dart';
 import 'package:dog_training_log/models/activity.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(ActivityAdapter());
+  await Hive.openBox<Activity>('activities');
+
   runApp(const MyApp());
 }
 
@@ -35,15 +43,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _text = "No activity";
-  // var activityList = <Activity>[];
-  List<Activity> activityList = Utils.getMockedActivities();
+  final String _text = "No activity";
 
-  _MyHomePageState() {
-    if (activityList.isNotEmpty) {
-      _text = activityList.last.toText();
-    }
-  }
+  _MyHomePageState();
 
   @override
   Widget build(BuildContext context) {
