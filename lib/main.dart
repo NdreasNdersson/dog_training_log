@@ -1,3 +1,8 @@
+import 'package:dog_training_log/pages/activitylistpage.dart';
+import 'package:dog_training_log/widgets/bottombar.dart';
+import 'package:dog_training_log/widgets/headerbar.dart';
+import 'package:dog_training_log/helpers/utils.dart';
+import 'package:dog_training_log/models/activity.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,82 +20,52 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MyHomePage(title: 'Overview'),
+      home: const ActivityListPage()//const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
-  final String title;
+  final String title = 'Home';
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  final TextEditingController _input = TextEditingController();
+  String _text = "No activity";
+  // var activityList = <Activity>[];
+  List<Activity> activityList = Utils.getMockedActivities();
 
-  void _addEntry() {
-    setState(() {
-      _counter += 2;
-      showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return Dialog(
-            child: SizedBox(
-              height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const FlutterLogo(size: 150,),
-                  const Text("This is a Custom Dialog", style: TextStyle(fontSize: 20),),
-                  TextField(controller: _input,),
-                  ElevatedButton(
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                    }, child: const Text("Close"),
-                  )
-                ],
-              ),
-            ),
-          );
-        }
-      );
-    });
+  _MyHomePageState() {
+    if (activityList.isNotEmpty) {
+      _text = activityList.last.toText();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      appBar: const HeaderBar('Home'),
+      body: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                'Last activity:',
+              ),
+              Text(
+                _text,
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
+          )
+        ]
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              _input.text,
-              style: Theme.of(context).textTheme.headline4,
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addEntry,
-        tooltip: 'Add entry',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar:const BottomBar()
     );
   }
 }
