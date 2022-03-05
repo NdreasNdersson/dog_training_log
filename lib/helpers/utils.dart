@@ -1,6 +1,6 @@
 
 
-import '../models/activity.dart';
+import 'package:dog_training_log/models/activity.dart';
 
 class Utils {
   static List<Activity> getMockedActivities() {

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 class Activity {
   Activity({required this.type, required this.date, this.distance = 0.0, this.comment = ""});

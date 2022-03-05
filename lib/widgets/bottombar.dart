@@ -1,3 +1,5 @@
+import 'package:dog_training_log/main.dart';
+import 'package:dog_training_log/pages/activitylistpage.dart';
 import 'package:flutter/material.dart';
 
 
@@ -6,51 +8,40 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 20,
-                  color: Colors.black.withOpacity(0.2),
-                  offset: Offset.zero
-              )
-            ]
-        ),
-        height: 75,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ClipOval(
-              child: Material(
-                  child: IconButton(
-                    icon: const Icon(Icons.home),
-                    onPressed: () {},
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 4.0,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyHomePage()
                   )
-              ),
-            ),
-            ClipOval(
-              child: Material(
-                  child: IconButton(
-                    icon: const Icon(Icons.list),
-                    onPressed: () {},
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.list),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ActivityListPage()
                   )
-              ),
-            ),
-            ClipOval(
-              child: Material(
-                  child: IconButton(
-                    icon: const Icon(Icons.calendar_today),
-                    onPressed: () {},
-                  )
-              ),
-            ),
-          ],
-        ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.calendar_today),
+            onPressed: () {},
+          )
+        ],
       ),
     );
   }
