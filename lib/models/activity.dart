@@ -3,8 +3,7 @@ import 'package:hive/hive.dart';
 part 'activity.g.dart';
 
 @HiveType(typeId: 0)
-class Activity extends HiveObject{
-
+class Activity extends HiveObject {
   @HiveField(0)
   late DateTime created;
 

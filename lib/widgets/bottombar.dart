@@ -2,7 +2,6 @@ import 'package:dog_training_log/main.dart';
 import 'package:dog_training_log/pages/activitylistpage.dart';
 import 'package:flutter/material.dart';
 
-
 class BottomBar extends StatelessWidget {
   const BottomBar({Key? key}) : super(key: key);
 
@@ -18,23 +17,15 @@ class BottomBar extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.home),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyHomePage()
-                  )
-              );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()));
             },
           ),
           IconButton(
             icon: const Icon(Icons.list),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ActivityListPage()
-                  )
-              );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ActivityListPage()));
             },
           ),
           IconButton(
