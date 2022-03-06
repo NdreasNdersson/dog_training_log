@@ -26,39 +26,42 @@ class _ActivityCard extends State<ActivityCard> {
           return Dialog(
             child: SizedBox(
               height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  TextField(
-                    controller: typeC,
-                  ),
-                  TextField(
-                    controller: distanceC,
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextField(
-                    controller: commentC,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            widget.activity.delete();
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Delete"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            editActivity(widget.activity, typeC.text,
-                                double.parse(distanceC.text), commentC.text);
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Save"),
-                        )
-                      ]),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    TextField(
+                      controller: typeC,
+                    ),
+                    TextField(
+                      controller: distanceC,
+                      keyboardType: TextInputType.number,
+                    ),
+                    TextField(
+                      controller: commentC,
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              widget.activity.delete();
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Delete"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              editActivity(widget.activity, typeC.text,
+                                  double.parse(distanceC.text), commentC.text);
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Save"),
+                          )
+                        ]),
+                  ],
+                ),
               ),
             ),
           );
