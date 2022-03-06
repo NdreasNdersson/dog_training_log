@@ -4,7 +4,6 @@ import 'package:dog_training_log/widgets/headerbar.dart';
 import 'package:dog_training_log/widgets/bottombar.dart';
 import 'package:flutter/material.dart';
 import 'package:dog_training_log/models/activity.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ActivityListPage extends StatefulWidget {
@@ -15,7 +14,6 @@ class ActivityListPage extends StatefulWidget {
 }
 
 class _ActivityListPage extends State<ActivityListPage> {
-
   final TextEditingController _type_c = TextEditingController();
   final TextEditingController _distance_c = TextEditingController();
   // final TextEditingController _date_c = TextEditingController();
@@ -53,12 +51,14 @@ class _ActivityListPage extends State<ActivityListPage> {
               controller: _comment_c,
             ),
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 setState(() {
-                  addActivity(_type_c.text, double.parse(_distance_c.text), DateTime.now(), _comment_c.text);
+                  addActivity(_type_c.text, double.parse(_distance_c.text),
+                      DateTime.now(), _comment_c.text);
                 });
                 Navigator.pop(context);
-              }, child: const Text("Add"),
+              },
+              child: const Text("Add"),
             )
           ],
         ),
@@ -85,41 +85,35 @@ class _ActivityListPage extends State<ActivityListPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return _addEntry();
-            }
-          );
+              context: context,
+              builder: (BuildContext context) {
+                return _addEntry();
+              });
         },
         tooltip: 'Add entry',
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar:const BottomBar()
-    );
+      bottomNavigationBar: const BottomBar());
 
   Widget buildContent(List<Activity> activities) {
     return Stack(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
+        Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Expanded(
               child: ListView.builder(
-                itemCount: activities.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ActivityCard(activity: activities[index]);
-                }
-              )
-            ),
-          ]
-        )
+                  itemCount: activities.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ActivityCard(activity: activities[index]);
+                  })),
+        ])
       ],
     );
   }
 
-  void addActivity(String type, double distance, DateTime date, String comment ) {
+  void addActivity(
+      String type, double distance, DateTime date, String comment) {
     final activity = Activity()
       ..created = DateTime.now()
       ..type = type
@@ -130,6 +124,4 @@ class _ActivityListPage extends State<ActivityListPage> {
     final box = Boxes.getActivities();
     box.add(activity);
   }
-
-
 }

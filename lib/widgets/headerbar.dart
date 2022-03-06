@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class HeaderBar extends StatefulWidget implements PreferredSizeWidget {
   const HeaderBar(this.title, {Key? key})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
@@ -16,7 +15,6 @@ class HeaderBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HeaderBarState extends State<HeaderBar> {
-
   @override
   Widget build(BuildContext context) {
     return AppBar(

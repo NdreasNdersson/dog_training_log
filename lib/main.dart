@@ -1,10 +1,8 @@
 import 'package:dog_training_log/pages/activitylistpage.dart';
 import 'package:dog_training_log/widgets/bottombar.dart';
 import 'package:dog_training_log/widgets/headerbar.dart';
-import 'package:dog_training_log/helpers/utils.dart';
 import 'package:dog_training_log/models/activity.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
@@ -24,12 +22,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dog training log',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: const ActivityListPage()//const MyHomePage(),
-    );
+        title: 'Dog training log',
+        theme: ThemeData(
+          primarySwatch: Colors.blueGrey,
+        ),
+        home: const ActivityListPage() //const MyHomePage(),
+        );
   }
 }
 
@@ -50,9 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HeaderBar('Home'),
-      body: Stack(
-        children: [
+        appBar: const HeaderBar('Home'),
+        body: Stack(children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -65,9 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           )
-        ]
-      ),
-      bottomNavigationBar:const BottomBar()
-    );
+        ]),
+        bottomNavigationBar: const BottomBar());
   }
 }
