@@ -41,112 +41,134 @@ class _ActivityEntryState extends State<ActivityEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _typeController,
-          decoration: const InputDecoration(
-              disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-              labelText: 'Type',
-              contentPadding: EdgeInsets.all(5)),
-          minLines: 1,
-        ),
-        TextField(
-          controller: _distanceController,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-              disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-              labelText: 'Distance',
-              contentPadding: EdgeInsets.all(5)),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            InkWell(
-              onTap: () {
-                _selectDate(context);
-              },
-              child: Container(
-                margin: const EdgeInsets.only(top: 30),
-                alignment: Alignment.center,
-                width: 150,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: TextFormField(
-                  style: const TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                  enabled: false,
-                  keyboardType: TextInputType.text,
-                  controller: _dateController,
-                  decoration: const InputDecoration(
-                      disabledBorder:
-                          UnderlineInputBorder(borderSide: BorderSide.none),
-                      labelText: 'Date',
-                      contentPadding: EdgeInsets.all(5)),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                _selectTime(context);
-              },
-              child: Container(
-                margin: const EdgeInsets.only(top: 30),
-                alignment: Alignment.center,
-                width: 100,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: TextFormField(
-                  style: const TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                  enabled: false,
-                  keyboardType: TextInputType.text,
-                  controller: _timeController,
-                  decoration: const InputDecoration(
-                      disabledBorder:
-                          UnderlineInputBorder(borderSide: BorderSide.none),
-                      labelText: 'Time',
-                      contentPadding: EdgeInsets.all(5)),
-                ),
-              ),
-            ),
-          ],
-        ),
-        TextField(
-          controller: _commentController,
-          decoration: const InputDecoration(
-              disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-              labelText: 'Comment',
-              contentPadding: EdgeInsets.all(5)),
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          ElevatedButton(
-            onPressed: () {
-              if (widget.activity != null) {
-                widget.activity!.delete();
-              }
-              Navigator.pop(context);
-            },
-            child: Text(deleteCloseText),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              double distance = 0.0;
-              if (_distanceController.text != "") {
-                distance = double.parse(_distanceController.text);
-              }
+    return Dialog(
+      child: SizedBox(
+        height: 400,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  TextField(
+                    controller: _typeController,
+                    decoration: const InputDecoration(
+                        disabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        labelText: 'Type',
+                        contentPadding: EdgeInsets.all(5)),
+                    minLines: 1,
+                  ),
+                  TextField(
+                    controller: _distanceController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                        disabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        labelText: 'Distance',
+                        contentPadding: EdgeInsets.all(5)),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          alignment: Alignment.center,
+                          width: 150,
+                          decoration: BoxDecoration(color: Colors.grey[200]),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
+                            enabled: false,
+                            keyboardType: TextInputType.text,
+                            controller: _dateController,
+                            decoration: const InputDecoration(
+                                disabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                labelText: 'Date',
+                                contentPadding: EdgeInsets.all(5)),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          _selectTime(context);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          alignment: Alignment.center,
+                          width: 100,
+                          decoration: BoxDecoration(color: Colors.grey[200]),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
+                            enabled: false,
+                            keyboardType: TextInputType.text,
+                            controller: _timeController,
+                            decoration: const InputDecoration(
+                                disabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                labelText: 'Time',
+                                contentPadding: EdgeInsets.all(5)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    controller: _commentController,
+                    decoration: const InputDecoration(
+                        disabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        labelText: 'Comment',
+                        contentPadding: EdgeInsets.all(5)),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (widget.activity != null) {
+                              widget.activity!.delete();
+                            }
+                            Navigator.pop(context);
+                          },
+                          child: Text(deleteCloseText),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            double distance = 0.0;
+                            if (_distanceController.text != "") {
+                              distance = double.parse(_distanceController.text);
+                            }
 
-              if (widget.activity != null) {
-                editActivity(widget.activity!, _typeController.text, _dateTime,
-                    distance, _commentController.text);
-              } else {
-                addActivity(_typeController.text, _dateTime, distance,
-                    _commentController.text);
-              }
-              Navigator.pop(context);
-            },
-            child: const Text("Save"),
-          )
-        ]),
-      ],
+                            if (widget.activity != null) {
+                              editActivity(
+                                  widget.activity!,
+                                  _typeController.text,
+                                  _dateTime,
+                                  distance,
+                                  _commentController.text);
+                            } else {
+                              addActivity(_typeController.text, _dateTime,
+                                  distance, _commentController.text);
+                            }
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Save"),
+                        )
+                      ]),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 

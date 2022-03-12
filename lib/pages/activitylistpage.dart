@@ -15,20 +15,6 @@ class ActivityListPage extends StatefulWidget {
 }
 
 class _ActivityListPage extends State<ActivityListPage> {
-  final TextEditingController _type_c = TextEditingController();
-  final TextEditingController _distance_c = TextEditingController();
-  // final TextEditingController _date_c = TextEditingController();
-  final TextEditingController _comment_c = TextEditingController();
-
-  Dialog _addEntry() {
-    return const Dialog(
-      child: SizedBox(
-        height: 300,
-        child: ActivityEntry(),
-      ),
-    );
-  }
-
   @override
   void dispose() {
     Hive.box('activities').close();
@@ -52,7 +38,7 @@ class _ActivityListPage extends State<ActivityListPage> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return _addEntry();
+                return const ActivityEntry();
               });
         },
         tooltip: 'Add entry',
@@ -73,18 +59,5 @@ class _ActivityListPage extends State<ActivityListPage> {
         ])
       ],
     );
-  }
-
-  void addActivity(
-      String type, double distance, DateTime date, String comment) {
-    final activity = Activity()
-      ..created = DateTime.now()
-      ..type = type
-      ..distance = distance
-      ..date = date
-      ..comment = comment;
-
-    final box = Boxes.getActivities();
-    box.add(activity);
   }
 }
