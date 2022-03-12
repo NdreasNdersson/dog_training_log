@@ -1,5 +1,6 @@
 import 'package:dog_training_log/boxes.dart';
 import 'package:dog_training_log/widgets/activitycard.dart';
+import 'package:dog_training_log/widgets/activitydialog.dart';
 import 'package:dog_training_log/widgets/headerbar.dart';
 import 'package:dog_training_log/widgets/bottombar.dart';
 import 'package:flutter/material.dart';
@@ -20,48 +21,10 @@ class _ActivityListPage extends State<ActivityListPage> {
   final TextEditingController _comment_c = TextEditingController();
 
   Dialog _addEntry() {
-    return Dialog(
+    return const Dialog(
       child: SizedBox(
         height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            TextField(
-              decoration: const InputDecoration(hintText: "Type:"),
-              controller: _type_c,
-            ),
-            TextField(
-              decoration: const InputDecoration(hintText: "Distance:"),
-              controller: _distance_c,
-              keyboardType: TextInputType.number,
-            ),
-            // TextFormField(
-            //   style: const TextStyle(fontSize: 40),
-            //   textAlign: TextAlign.center,
-            //   enabled: false,
-            //   keyboardType: TextInputType.text,
-            //   controller: _date_c,
-            //   decoration: const InputDecoration(
-            //     disabledBorder:
-            //     UnderlineInputBorder(borderSide: BorderSide.none),
-            //     contentPadding: EdgeInsets.only(top: 0.0)),
-            // ),
-            TextField(
-              decoration: const InputDecoration(hintText: "Comment:"),
-              controller: _comment_c,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  addActivity(_type_c.text, double.parse(_distance_c.text),
-                      DateTime.now(), _comment_c.text);
-                });
-                Navigator.pop(context);
-              },
-              child: const Text("Add"),
-            )
-          ],
-        ),
+        child: ActivityEntry(),
       ),
     );
   }
