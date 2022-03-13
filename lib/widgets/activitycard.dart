@@ -1,4 +1,5 @@
 import 'package:dog_training_log/models/activity.dart';
+import 'package:dog_training_log/widgets/activitydialog.dart';
 import 'package:flutter/material.dart';
 
 class ActivityCard extends StatefulWidget {
@@ -11,63 +12,6 @@ class ActivityCard extends StatefulWidget {
 }
 
 class _ActivityCard extends State<ActivityCard> {
-  void _onClick() {
-    final TextEditingController typeC = TextEditingController();
-    final TextEditingController distanceC = TextEditingController();
-    final TextEditingController commentC = TextEditingController();
-
-    typeC.text = widget.activity.type;
-    distanceC.text = "${widget.activity.distance}";
-    commentC.text = widget.activity.comment;
-
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            child: SizedBox(
-              height: 300,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    TextField(
-                      controller: typeC,
-                    ),
-                    TextField(
-                      controller: distanceC,
-                      keyboardType: TextInputType.number,
-                    ),
-                    TextField(
-                      controller: commentC,
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              widget.activity.delete();
-                              Navigator.pop(context);
-                            },
-                            child: const Text("Delete"),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              editActivity(widget.activity, typeC.text,
-                                  double.parse(distanceC.text), commentC.text);
-                              Navigator.pop(context);
-                            },
-                            child: const Text("Save"),
-                          )
-                        ]),
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -78,7 +22,11 @@ class _ActivityCard extends State<ActivityCard> {
               child: InkWell(
                 splashColor: Colors.black.withAlpha(30),
                 onTap: () {
-                  _onClick();
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ActivityEntry(activity: widget.activity);
+                      });
                 },
                 child: SizedBox(
                     width: double.infinity,
@@ -108,14 +56,5 @@ class _ActivityCard extends State<ActivityCard> {
             )
           ],
         ));
-  }
-
-  void editActivity(
-      Activity activity, String type, double distance, String comment) {
-    activity.type = type;
-    activity.distance = distance;
-    activity.comment = comment;
-
-    activity.save();
   }
 }
