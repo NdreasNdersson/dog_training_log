@@ -37,6 +37,7 @@ dependencies:
   hive_flutter: ^1.1.0
   intl: ^0.17.0
   date_format: ^2.0.5
+  table_calendar: ^3.0.4
 
 dev_dependencies:
   flutter_test:
