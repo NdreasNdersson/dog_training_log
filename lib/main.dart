@@ -1,4 +1,5 @@
 import 'package:dog_training_log/pages/activitylistpage.dart';
+import 'package:dog_training_log/pages/calendarpage.dart';
 import 'package:dog_training_log/widgets/bottombar.dart';
 import 'package:dog_training_log/widgets/headerbar.dart';
 import 'package:dog_training_log/models/activity.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
         ),
-        home: const ActivityListPage() //const MyHomePage(),
+        home:
+            const CalendarPage() //const ActivityListPage() //const MyHomePage(),
         );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:dog_training_log/main.dart';
 import 'package:dog_training_log/pages/activitylistpage.dart';
+import 'package:dog_training_log/pages/calendarpage.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
@@ -24,13 +25,20 @@ class BottomBar extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.list),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ActivityListPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ActivityListPage()));
             },
           ),
           IconButton(
             icon: const Icon(Icons.calendar_today),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CalendarPage()));
+            },
           )
         ],
       ),
