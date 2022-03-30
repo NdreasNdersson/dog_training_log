@@ -1,5 +1,5 @@
+import 'package:dog_training_log/models/dog.dart';
 import 'package:dog_training_log/pages/activitylistpage.dart';
-import 'package:dog_training_log/pages/calendarpage.dart';
 import 'package:dog_training_log/widgets/bottombar.dart';
 import 'package:dog_training_log/widgets/headerbar.dart';
 import 'package:dog_training_log/models/activity.dart';
@@ -12,6 +12,9 @@ Future<void> main() async {
 
   Hive.registerAdapter(ActivityAdapter());
   await Hive.openBox<Activity>('activities');
+
+  Hive.registerAdapter(DogAdapter());
+  await Hive.openBox<Dog>('dogs');
 
   runApp(const MyApp());
 }
@@ -27,8 +30,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
         ),
-        home:
-            const CalendarPage() //const ActivityListPage() //const MyHomePage(),
+        home: const ActivityListPage() //const MyHomePage(),
         );
   }
 }
