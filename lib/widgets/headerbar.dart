@@ -1,3 +1,4 @@
+import 'package:dog_training_log/pages/acountpage.dart';
 import 'package:flutter/material.dart';
 
 class HeaderBar extends StatefulWidget implements PreferredSizeWidget {
@@ -21,9 +22,16 @@ class _HeaderBarState extends State<HeaderBar> {
       title: Text(widget.title),
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 10),
-          child: const Icon(Icons.account_circle),
-        )
+            margin: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              icon: const Icon(Icons.account_circle),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AccountPage()),
+                );
+              },
+            ))
       ],
     );
   }

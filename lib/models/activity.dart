@@ -1,3 +1,4 @@
+import 'package:dog_training_log/models/dog.dart';
 import 'package:hive/hive.dart';
 
 part 'activity.g.dart';
@@ -18,4 +19,7 @@ class Activity extends HiveObject {
 
   @HiveField(4)
   late String comment;
+
+  @HiveField(5)
+  late Dog dog;
 }

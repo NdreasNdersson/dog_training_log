@@ -1,5 +1,6 @@
 import 'package:dog_training_log/boxes.dart';
 import 'package:dog_training_log/models/activity.dart';
+import 'package:dog_training_log/models/dog.dart';
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +16,7 @@ class ActivityEntry extends StatefulWidget {
 
 class _ActivityEntryState extends State<ActivityEntry> {
   late DateTime _dateTime;
+  late Dog _selectedDog;
 
   final TextEditingController _typeController = TextEditingController();
   final TextEditingController _distanceController = TextEditingController();
@@ -27,11 +29,13 @@ class _ActivityEntryState extends State<ActivityEntry> {
   void initState() {
     if (widget.activity != null) {
       _dateTime = widget.activity!.date;
+      _selectedDog = widget.activity!.dog;
       _typeController.text = widget.activity!.type;
       _distanceController.text = "${widget.activity!.distance}";
       _commentController.text = widget.activity!.comment;
     } else {
       _dateTime = DateTime.now();
+      _selectedDog = Boxes.getDogs().values.toList()[0];
       deleteCloseText = "Close";
     }
     _dateController.text = DateFormat.yMd().format(_dateTime);
@@ -120,6 +124,30 @@ class _ActivityEntryState extends State<ActivityEntry> {
                       ),
                     ],
                   ),
+                  DropdownButton<Dog>(
+                    value: _selectedDog,
+                    icon: const Icon(Icons.arrow_downward),
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (Dog? newValue) {
+                      setState(() {
+                        _selectedDog = newValue!;
+                      });
+                    },
+                    items: Boxes.getDogs()
+                        .values
+                        .toList()
+                        .map<DropdownMenuItem<Dog>>((Dog value) {
+                      return DropdownMenuItem<Dog>(
+                        value: value,
+                        child: Text(value.name),
+                      );
+                    }).toList(),
+                  ),
                   TextField(
                     controller: _commentController,
                     decoration: const InputDecoration(
@@ -153,10 +181,15 @@ class _ActivityEntryState extends State<ActivityEntry> {
                                   _typeController.text,
                                   _dateTime,
                                   distance,
-                                  _commentController.text);
+                                  _commentController.text,
+                                  _selectedDog);
                             } else {
-                              addActivity(_typeController.text, _dateTime,
-                                  distance, _commentController.text);
+                              addActivity(
+                                  _typeController.text,
+                                  _dateTime,
+                                  distance,
+                                  _commentController.text,
+                                  _selectedDog);
                             }
                             Navigator.pop(context);
                           },
@@ -208,23 +241,25 @@ class _ActivityEntryState extends State<ActivityEntry> {
   }
 
   void editActivity(Activity activity, String type, DateTime date,
-      double distance, String comment) {
+      double distance, String comment, Dog dog) {
     activity.type = type;
     activity.date = date;
     activity.distance = distance;
     activity.comment = comment;
+    activity.dog = dog;
 
     activity.save();
   }
 
   void addActivity(
-      String type, DateTime date, double distance, String comment) {
+      String type, DateTime date, double distance, String comment, Dog dog) {
     final activity = Activity()
       ..created = DateTime.now()
       ..type = type
       ..distance = distance
       ..date = date
-      ..comment = comment;
+      ..comment = comment
+      ..dog = dog;
 
     final box = Boxes.getActivities();
     box.add(activity);
