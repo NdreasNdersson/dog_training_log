@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -47,46 +47,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Completer<GoogleMapController> _controller = Completer();
+  LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
+  late GoogleMapController _controller;
+  Location _location = Location();
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(17.385044, 78.486671),
-    zoom: 18,
-  );
-
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  late MarkerId markerId1;
-  late Marker marker1;
-
-  @override
-  void initState() {
-    super.initState();
-    markerId1 = MarkerId("Current");
-    marker1 = Marker(
-        markerId: markerId1,
-        position: LatLng(17.385044, 78.486671),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        infoWindow: InfoWindow(
-            title: "Hytech City", onTap: () {}, snippet: "Snipet Hitech City"));
-    markers[markerId1] = marker1;
+  void _onMapCreated(GoogleMapController _cntlr) {
+    _controller = _cntlr;
+    _location.onLocationChanged.listen((l) {
+      _controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         drawer: const Drawer(),
         appBar: const HeaderBar('Map view'),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: Stack(
             children: [
               GoogleMap(
+                initialCameraPosition:
+                    CameraPosition(target: _initialcameraposition),
                 mapType: MapType.normal,
-                initialCameraPosition: _kGooglePlex,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-                markers: Set<Marker>.of(markers.values),
+                onMapCreated: _onMapCreated,
+                myLocationEnabled: true,
               ),
             ],
           ),
