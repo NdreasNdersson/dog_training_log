@@ -52,14 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Completer<GoogleMapController> _controller = Completer();
   Location _location = Location();
   late LatLng _currentlocation;
-  List<LatLng> points = [
-    LatLng(57.6610, 12.0006),
-    LatLng(57.6611, 12.0010),
-    LatLng(57.6610, 12.0014),
-    LatLng(57.6608, 12.0016),
-    LatLng(57.6606, 12.0018),
-    LatLng(57.6603, 12.0015)
-  ];
+  List<LatLng> points = [];
   late Set<Polyline> _polyline = {
     Polyline(
       polylineId: PolylineId("poly"),
@@ -68,6 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
       color: Colors.blue,
     )
   };
+  bool track = false;
+  IconData _icon = Icons.play_circle;
+  Color _color = Colors.green;
 
   Timer? timer;
 
@@ -108,20 +104,40 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            track = !track;
+            setState(() {
+              if (track) {
+                _icon = Icons.stop_circle;
+                _color = Colors.red;
+              } else {
+                _icon = Icons.play_circle;
+                _color = Colors.green;
+              }
+            });
+          },
+          tooltip: 'Track position',
+          child: Icon(_icon),
+          backgroundColor: _color,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         bottomNavigationBar: const BottomBar());
   }
 
   void _addPosition() {
-    setState(() {
-      points.add(_currentlocation);
-      _polyline = {
-        Polyline(
-          polylineId: PolylineId("poly"),
-          visible: true,
-          points: points,
-          color: Colors.blue,
-        )
-      };
-    });
+    if (track) {
+      setState(() {
+        points.add(_currentlocation);
+        _polyline = {
+          Polyline(
+            polylineId: PolylineId("poly"),
+            visible: true,
+            points: points,
+            color: Colors.blue,
+          )
+        };
+      });
+    }
   }
 }
