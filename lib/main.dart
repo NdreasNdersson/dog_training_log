@@ -47,19 +47,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  LatLng _initialcameraposition = LatLng(20.5937, 78.9629);
-  late GoogleMapController _controller;
+  final CameraPosition _initialpos =
+      const CameraPosition(target: LatLng(57.708870, 11.974560), zoom: 14.0);
+  Completer<GoogleMapController> _controller = Completer();
   Location _location = Location();
+  late LatLng _currentlocation;
+  List<LatLng> points = [
+    LatLng(57.6610, 12.0006),
+    LatLng(57.6611, 12.0010),
+    LatLng(57.6610, 12.0014),
+    LatLng(57.6608, 12.0016),
+    LatLng(57.6606, 12.0018),
+    LatLng(57.6603, 12.0015)
+  ];
+  late Set<Polyline> _polyline = {
+    Polyline(
+      polylineId: PolylineId("poly"),
+      visible: true,
+      points: [],
+      color: Colors.blue,
+    )
+  };
 
-  void _onMapCreated(GoogleMapController _cntlr) {
-    _controller = _cntlr;
-    _location.onLocationChanged.listen((l) {
-      _controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
-        ),
-      );
-    });
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => _addPosition());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -73,15 +94,34 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Stack(
             children: [
               GoogleMap(
-                initialCameraPosition:
-                    CameraPosition(target: _initialcameraposition),
-                mapType: MapType.normal,
-                onMapCreated: _onMapCreated,
+                initialCameraPosition: _initialpos,
+                polylines: _polyline,
+                mapType: MapType.satellite,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                  _location.onLocationChanged.listen((l) {
+                    _currentlocation = LatLng(l.latitude!, l.longitude!);
+                  });
+                },
                 myLocationEnabled: true,
               ),
             ],
           ),
         ),
         bottomNavigationBar: const BottomBar());
+  }
+
+  void _addPosition() {
+    setState(() {
+      points.add(_currentlocation);
+      _polyline = {
+        Polyline(
+          polylineId: PolylineId("poly"),
+          visible: true,
+          points: points,
+          color: Colors.blue,
+        )
+      };
+    });
   }
 }
