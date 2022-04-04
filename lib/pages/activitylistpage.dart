@@ -1,6 +1,7 @@
 import 'package:dog_training_log/boxes.dart';
 import 'package:dog_training_log/widgets/activitycard.dart';
 import 'package:dog_training_log/widgets/activitydialog.dart';
+import 'package:dog_training_log/widgets/dogdialog.dart';
 import 'package:dog_training_log/widgets/headerbar.dart';
 import 'package:dog_training_log/widgets/bottombar.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,19 @@ class _ActivityListPage extends State<ActivityListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const ActivityEntry();
-              });
+          if (Boxes.getDogs().values.toList().isEmpty) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const DogEntry();
+                });
+          } else {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ActivityEntry();
+                });
+          }
         },
         tooltip: 'Add entry',
         child: const Icon(Icons.add),
