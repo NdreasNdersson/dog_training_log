@@ -1,4 +1,6 @@
 import 'package:dog_training_log/models/dog.dart';
+import 'package:dog_training_log/models/markerdetails.dart';
+import 'package:dog_training_log/models/polylinedetails.dart';
 import 'package:hive/hive.dart';
 
 part 'activity.g.dart';
@@ -22,4 +24,10 @@ class Activity extends HiveObject {
 
   @HiveField(5)
   late Dog dog;
+
+  @HiveField(6)
+  late List<PolylineDetails> lineDetails;
+
+  @HiveField(7)
+  late List<MarkerDetails> markerDetails;
 }

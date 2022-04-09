@@ -21,7 +21,7 @@ class _ActivityCard extends State<ActivityCard> {
             Card(
               child: InkWell(
                 splashColor: Colors.black.withAlpha(30),
-                onTap: () {
+                onLongPress: () {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {

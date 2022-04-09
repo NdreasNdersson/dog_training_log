@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'package:dog_training_log/boxes.dart';
 import 'package:dog_training_log/models/dog.dart';
-import 'package:dog_training_log/pages/activitylistpage.dart';
+import 'package:dog_training_log/models/markerdetails.dart';
+import 'package:dog_training_log/models/polylinedetails.dart';
 import 'package:dog_training_log/widgets/bottombar.dart';
 import 'package:dog_training_log/widgets/headerbar.dart';
 import 'package:dog_training_log/models/activity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,6 +20,9 @@ Future<void> main() async {
 
   Hive.registerAdapter(DogAdapter());
   await Hive.openBox<Dog>('dogs');
+
+  Hive.registerAdapter(PolylineDetailsAdapter());
+  Hive.registerAdapter(MarkerDetailsAdapter());
 
   runApp(MyApp());
 }
@@ -71,6 +75,24 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => _addPosition());
+
+    Activity activity = Boxes.getActivities().values.toList().last;
+    activity.lineDetails.add(PolylineDetails());
+    for (var i = 0; i < activity.lineDetails.last.lat.length; i++) {
+      points.add(LatLng(
+          activity.lineDetails.last.lat[i], activity.lineDetails.last.long[i]));
+    }
+    setState(() {
+      _polyline = {
+        Polyline(
+          polylineId: PolylineId("poly"),
+          visible: true,
+          points: points,
+          // color: Colors.blue,
+          color: Color(activity.lineDetails.last.color),
+        )
+      };
+    });
   }
 
   @override
@@ -114,6 +136,17 @@ class _MyHomePageState extends State<MyHomePage> {
               } else {
                 _icon = Icons.play_circle;
                 _color = Colors.green;
+
+                Activity activity = Boxes.getActivities().values.toList().last;
+                for (var i = 0; i < _polyline.last.points.length; i++) {
+                  activity.lineDetails.last.lat
+                      .add(_polyline.last.points[i].latitude);
+                  activity.lineDetails.last.long
+                      .add(_polyline.last.points[i].longitude);
+                }
+
+                activity.lineDetails.last.color = _polyline.last.color.value;
+                activity.save();
               }
             });
           },

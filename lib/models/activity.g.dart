@@ -22,13 +22,15 @@ class ActivityAdapter extends TypeAdapter<Activity> {
       ..distance = fields[2] as double
       ..date = fields[3] as DateTime
       ..comment = fields[4] as String
-      ..dog = fields[5] as Dog;
+      ..dog = fields[5] as Dog
+      ..lineDetails = (fields[6] as List).cast<PolylineDetails>()
+      ..markerDetails = (fields[7] as List).cast<MarkerDetails>();
   }
 
   @override
   void write(BinaryWriter writer, Activity obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.created)
       ..writeByte(1)
@@ -40,7 +42,11 @@ class ActivityAdapter extends TypeAdapter<Activity> {
       ..writeByte(4)
       ..write(obj.comment)
       ..writeByte(5)
-      ..write(obj.dog);
+      ..write(obj.dog)
+      ..writeByte(6)
+      ..write(obj.lineDetails)
+      ..writeByte(7)
+      ..write(obj.markerDetails);
   }
 
   @override

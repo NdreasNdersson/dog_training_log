@@ -1,6 +1,8 @@
 import 'package:dog_training_log/boxes.dart';
 import 'package:dog_training_log/models/activity.dart';
 import 'package:dog_training_log/models/dog.dart';
+import 'package:dog_training_log/models/markerdetails.dart';
+import 'package:dog_training_log/models/polylinedetails.dart';
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
@@ -259,7 +261,9 @@ class _ActivityEntryState extends State<ActivityEntry> {
       ..distance = distance
       ..date = date
       ..comment = comment
-      ..dog = dog;
+      ..dog = dog
+      ..lineDetails.add(PolylineDetails())
+      ..markerDetails.add(MarkerDetails());
 
     final box = Boxes.getActivities();
     box.add(activity);
